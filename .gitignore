@@ -1,0 +1,39 @@
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Org-mode
+.org-id-locations
+*_archive
+
+# Package management
+elpa/
+straight/
+eln-cache/
+var/
+transient/
+
+# Custom file (user-specific settings)
+custom.el
+
+# Projectile
+.projectile
+
+# Network security
+network-security.data
+
+# vterm compilation
+vterm-module.so
+
+# Session files
+session.*
+places
+recentf
+bookmarks
+ido.last
