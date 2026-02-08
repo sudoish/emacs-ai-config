@@ -76,7 +76,34 @@
 ---
 
 ## Phase 3: Basic AI Integration
-**Status:** ⏳ Not Started
+**Status:** ✅ Complete
+
+### ✅ Completed
+
+#### Claude Code IDE Integration
+- [x] claude-code-ide.el installed via `:vc` (Emacs 30+ built-in VC support)
+- [x] Keybinding: `C-c '` for Claude Code transient menu
+- [x] Leader keys: `SPC a a` menu, `SPC a t` toggle, `SPC a c` send buffer, `SPC a s` send selection
+
+#### Terminal Backend
+- [x] vterm as terminal backend (fast, full terminal emulation)
+- [x] `claude-code-ide-terminal-backend` set to `'vterm`
+
+#### Ediff Integration (Accept/Reject Workflow)
+- [x] `claude-code-ide-use-ide-diff` enabled
+- [x] Visual diff viewer opens when Claude suggests changes
+- [x] Press `q` then `y` to accept changes, `n` to reject
+- [x] Navigate hunks with `n`/`p`, choose versions with `a`/`b`
+
+#### MCP Tools (Model Context Protocol)
+- [x] `claude-code-ide-emacs-tools-setup` configured
+- [x] Enabled tools:
+  - `open_file` - Open files in Emacs from Claude
+  - `get_diagnostics` - Access LSP/Flymake diagnostics
+  - `find_references` / `find_definition` - xref integration
+  - `get_open_buffers` - Claude can see open buffers
+
+---
 
 ## Phase 4: AI-Native Workflow
 **Status:** ⏳ Not Started

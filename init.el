@@ -1,7 +1,7 @@
 ;;; init.el --- AI-Native Emacs Configuration -*- lexical-binding: t; -*-
 
 ;; Author: AI-Native Emacs Config
-;; Description: Phase 1 - Core editor with vim keybindings matching nvchad
+;; Description: Phases 1-3 - Core editor, advanced features, Claude Code integration
 
 ;;; Commentary:
 ;; This configuration aims to provide a modern, AI-native Emacs experience
@@ -300,9 +300,12 @@
     "cq" '(eglot-shutdown :which-key "shutdown LSP")
     "cQ" '(eglot-reconnect :which-key "restart LSP")
 
-    ;; AI (placeholder for future AI integration)
-    "a" '(:ignore t :which-key "AI")
-    "at" '(my/ai-task-placeholder :which-key "AI task"))
+    ;; AI - Claude Code integration (Phase 3)
+    "a" '(:ignore t :which-key "AI/Claude")
+    "aa" '(claude-code-ide-menu :which-key "Claude menu")
+    "ac" '(claude-code-ide-send-buffer :which-key "send buffer")
+    "as" '(claude-code-ide-send-region :which-key "send selection")
+    "at" '(claude-code-ide-toggle :which-key "toggle Claude"))
 
   ;; Window navigation with C-h/j/k/l (matching nvchad)
   (general-define-key
@@ -335,12 +338,6 @@
           (kill-current-buffer)
         (save-buffers-kill-terminal))
     (kill-buffer-and-window)))
-
-;; Placeholder for AI task (Phase 3+)
-(defun my/ai-task-placeholder ()
-  "Placeholder for AI task workflow (to be implemented in Phase 3)."
-  (interactive)
-  (message "AI task workflow will be implemented in Phase 3"))
 
 ;; Interactive theme loader
 (defun my/load-theme-interactive ()
@@ -772,6 +769,81 @@
   :hook (rust-mode . eglot-ensure)
   :custom
   (rust-format-on-save t))
+
+;; ============================================================================
+;; Terminal Emulation - vterm
+;; ============================================================================
+
+;; vterm provides a fast, fully-featured terminal emulator inside Emacs
+;; Required as the backend for claude-code-ide.el
+(use-package vterm
+  :commands (vterm vterm-other-window)
+  :custom
+  (vterm-max-scrollback 10000)
+  (vterm-buffer-name-string "vterm: %s")
+  (vterm-kill-buffer-on-exit t))
+
+;; ============================================================================
+;; Phase 3: Claude Code IDE Integration
+;; ============================================================================
+;;
+;; claude-code-ide.el provides native Claude Code integration with:
+;; - MCP (Model Context Protocol) tools for LSP, xref, diagnostics
+;; - Automatic file and selection tracking
+;; - Ediff integration for reviewing AI-suggested changes
+;;
+;; Key workflow:
+;; 1. Open Claude Code with C-c ' (transient menu)
+;; 2. Chat with Claude about code changes
+;; 3. When Claude suggests changes, ediff opens automatically
+;; 4. Review diffs: press 'q' then 'y' to accept or 'n' to reject
+;;
+
+(use-package claude-code-ide
+  :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :branch "main")
+  :bind
+  ;; C-c ' opens the Claude Code transient menu
+  ;; This is the main entry point for all Claude Code operations
+  ("C-c '" . claude-code-ide-menu)
+  :custom
+  ;; Use vterm as the terminal backend (faster, better terminal emulation)
+  (claude-code-ide-terminal-backend 'vterm)
+
+  ;; Enable IDE diff mode - this is the killer feature!
+  ;; When Claude suggests file changes, ediff opens automatically
+  ;; allowing you to review and accept/reject each change visually
+  (claude-code-ide-use-ide-diff t)
+  :config
+  ;; Enable MCP tools integration
+  ;; This gives Claude access to:
+  ;; - open_file: Open files in Emacs
+  ;; - get_diagnostics: Access LSP/Flymake diagnostics
+  ;; - find_references/find_definition: Use xref for code navigation
+  ;; - get_open_buffers: See what files are open
+  (claude-code-ide-emacs-tools-setup))
+
+;; ============================================================================
+;; Claude Code Keybindings Reference
+;; ============================================================================
+;;
+;; Main Commands:
+;;   C-c '     - Open Claude Code menu (transient interface)
+;;               From here you can:
+;;               - Start/toggle Claude terminal
+;;               - Send current buffer or selection
+;;               - Open chat history
+;;
+;; Ediff Workflow (when reviewing Claude's changes):
+;;   n/p       - Navigate between diff hunks
+;;   a/b       - Choose version A (original) or B (Claude's change)
+;;   q         - Quit ediff session
+;;   y         - Accept changes when prompted after quit
+;;   n         - Reject changes when prompted after quit
+;;
+;; The ediff workflow is the core of the accept/reject mechanism.
+;; Claude Code uses temporary buffers for proposed changes, and ediff
+;; lets you visually compare and selectively accept modifications.
+;;
 
 ;; ============================================================================
 ;; Custom File Location
