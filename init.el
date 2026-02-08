@@ -279,8 +279,7 @@
     "gu" '(magit-unstage-file :which-key "unstage file")
     "gr" '(magit-refresh :which-key "refresh")
     "gt" '(git-timemachine :which-key "time machine")
-    "gn" '(diff-hl-next-hunk :which-key "next hunk")
-    "gp" '(diff-hl-previous-hunk :which-key "prev hunk")
+    ;; Note: Git hunk navigation uses [g and ]g (defined below), not SPC g n/p
     "gh" '(diff-hl-revert-hunk :which-key "revert hunk")
 
     ;; Code/LSP operations
@@ -608,7 +607,8 @@
   (eglot-connect-timeout 10)
   :config
   ;; Performance optimizations
-  (setq eglot-ignored-server-capabilities '(:hoverProvider))  ; Disable hover for speed
+  ;; Note: Hover provider is enabled (required for 'K' keybinding to work)
+  ;; If performance is an issue, consider disabling :documentHighlightProvider instead
 
   ;; Add language servers if needed
   ;; Most modern servers are auto-detected, but you can customize:
@@ -801,6 +801,7 @@
 
 (use-package claude-code-ide
   :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :branch "main")
+  :if (executable-find "claude")  ; Only load if Claude CLI is installed
   :bind
   ;; C-c ' opens the Claude Code transient menu
   ;; This is the main entry point for all Claude Code operations
