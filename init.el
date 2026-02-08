@@ -190,27 +190,35 @@
     ;; Quit/close (matching nvchad <leader>q)
     "q" '(my/quit-buffer-or-emacs :which-key "quit buffer/emacs")
 
-    ;; File operations
-    "f" '(:ignore t :which-key "file")
+    ;; File operations (matching nvchad Telescope keybindings)
+    "f" '(:ignore t :which-key "file/find")
+    "ff" '(consult-find :which-key "find file")         ; SPC f f - like Telescope find_files
+    "fg" '(consult-ripgrep :which-key "live grep")      ; SPC f g - like Telescope live_grep
+    "fb" '(consult-buffer :which-key "buffers")         ; SPC f b - like Telescope buffers
+    "fr" '(consult-recent-file :which-key "recent files")
     "fs" '(save-buffer :which-key "save file")
-    "ff" '(find-file :which-key "find file")
-    "fr" '(recentf-open-files :which-key "recent files")
     "fR" '(rename-visited-file :which-key "rename file")
+    "fp" '(consult-projectile :which-key "project files")
+    "fP" '(projectile-switch-project :which-key "switch project")
 
-    ;; Search (matching nvchad sf/sg patterns)
+    ;; Search operations
     "s" '(:ignore t :which-key "search")
-    "sf" '(find-file :which-key "find file")
-    "sg" '(grep :which-key "grep")
-    "sb" '(switch-to-buffer :which-key "switch buffer")
-    "sr" '(recentf-open-files :which-key "recent files")
+    "ss" '(consult-line :which-key "search in buffer")
+    "sS" '(consult-line-multi :which-key "search all buffers")
+    "si" '(consult-imenu :which-key "imenu")
+    "sI" '(consult-imenu-multi :which-key "imenu all buffers")
+    "so" '(consult-outline :which-key "outline")
+    "sm" '(consult-mark :which-key "marks")
+    "sr" '(consult-ripgrep :which-key "ripgrep")
 
     ;; Buffer operations
     "b" '(:ignore t :which-key "buffer")
-    "bb" '(switch-to-buffer :which-key "switch buffer")
+    "bb" '(consult-buffer :which-key "switch buffer")
     "bd" '(kill-current-buffer :which-key "kill buffer")
     "bn" '(next-buffer :which-key "next buffer")
     "bp" '(previous-buffer :which-key "prev buffer")
     "bl" '(ibuffer :which-key "list buffers")
+    "bs" '(consult-buffer-other-window :which-key "buffer other window")
 
     ;; Window operations
     "w" '(:ignore t :which-key "window")
@@ -223,6 +231,10 @@
     "wj" '(evil-window-down :which-key "window down")
     "wk" '(evil-window-up :which-key "window up")
     "wl" '(evil-window-right :which-key "window right")
+
+    ;; Dired/Explorer (matching nvchad's NvimTree feel)
+    "e" '(dired-sidebar-toggle-sidebar :which-key "file explorer")
+    "E" '(dired-jump :which-key "dired here")
 
     ;; Toggle features
     "t" '(:ignore t :which-key "toggle")
@@ -238,8 +250,55 @@
     "hk" '(describe-key :which-key "describe key")
     "hm" '(describe-mode :which-key "describe mode")
 
-    ;; Git (placeholder for future magit)
+    ;; Project operations (matching nvchad)
+    "p" '(:ignore t :which-key "project")
+    "pp" '(projectile-switch-project :which-key "switch project")
+    "pf" '(consult-projectile-find-file :which-key "find file in project")
+    "pg" '(consult-ripgrep :which-key "grep in project")
+    "pb" '(consult-project-buffer :which-key "project buffers")
+    "pd" '(projectile-find-dir :which-key "find directory")
+    "pr" '(projectile-recentf :which-key "recent project files")
+    "pk" '(projectile-kill-buffers :which-key "kill project buffers")
+    "pa" '(projectile-add-known-project :which-key "add project")
+
+    ;; Git operations (matching nvchad LazyGit feel)
     "g" '(:ignore t :which-key "git")
+    "gg" '(magit-status :which-key "magit status")    ; SPC g g - main git interface
+    "gG" '(magit-dispatch :which-key "magit dispatch")
+    "gb" '(magit-blame :which-key "blame")
+    "gl" '(magit-log-current :which-key "log")
+    "gL" '(magit-log-buffer-file :which-key "file log")
+    "gd" '(magit-diff-dwim :which-key "diff")
+    "gD" '(magit-diff-buffer-file :which-key "file diff")
+    "gf" '(magit-fetch :which-key "fetch")
+    "gF" '(magit-pull :which-key "pull")
+    "gp" '(magit-push :which-key "push")
+    "gc" '(magit-commit :which-key "commit")
+    "gs" '(magit-stage-file :which-key "stage file")
+    "gS" '(magit-stage-modified :which-key "stage all")
+    "gu" '(magit-unstage-file :which-key "unstage file")
+    "gr" '(magit-refresh :which-key "refresh")
+    "gt" '(git-timemachine :which-key "time machine")
+    "gn" '(diff-hl-next-hunk :which-key "next hunk")
+    "gp" '(diff-hl-previous-hunk :which-key "prev hunk")
+    "gh" '(diff-hl-revert-hunk :which-key "revert hunk")
+
+    ;; Code/LSP operations
+    "c" '(:ignore t :which-key "code/lsp")
+    "ca" '(eglot-code-actions :which-key "code actions")
+    "cr" '(eglot-rename :which-key "rename")
+    "cf" '(eglot-format :which-key "format")
+    "cF" '(eglot-format-buffer :which-key "format buffer")
+    "cd" '(xref-find-definitions :which-key "go to definition")
+    "cD" '(xref-find-definitions-other-window :which-key "definition other window")
+    "ci" '(eglot-find-implementation :which-key "find implementation")
+    "ct" '(eglot-find-typeDefinition :which-key "find type definition")
+    "cR" '(xref-find-references :which-key "find references")
+    "cs" '(consult-eglot-symbols :which-key "workspace symbols")
+    "ch" '(eldoc-doc-buffer :which-key "hover docs")
+    "ce" '(consult-flymake :which-key "errors/diagnostics")
+    "cq" '(eglot-shutdown :which-key "shutdown LSP")
+    "cQ" '(eglot-reconnect :which-key "restart LSP")
 
     ;; AI (placeholder for future AI integration)
     "a" '(:ignore t :which-key "AI")
@@ -251,7 +310,21 @@
    "C-h" 'evil-window-left
    "C-j" 'evil-window-down
    "C-k" 'evil-window-up
-   "C-l" 'evil-window-right))
+   "C-l" 'evil-window-right)
+
+  ;; LSP/Code navigation in normal mode (vim-style, matching nvchad)
+  (general-define-key
+   :states 'normal
+   "gd" 'xref-find-definitions        ; Go to definition
+   "gD" 'xref-find-definitions-other-window
+   "gr" 'xref-find-references         ; Go to references
+   "gi" 'eglot-find-implementation    ; Go to implementation
+   "gt" 'eglot-find-typeDefinition    ; Go to type definition
+   "K" 'eldoc-doc-buffer              ; Show hover docs
+   "[d" 'flymake-goto-prev-error      ; Previous diagnostic
+   "]d" 'flymake-goto-next-error      ; Next diagnostic
+   "[g" 'diff-hl-previous-hunk        ; Previous git hunk
+   "]g" 'diff-hl-next-hunk))
 
 ;; Helper function for leader-q (matching nvchad behavior)
 (defun my/quit-buffer-or-emacs ()
@@ -380,6 +453,261 @@
   (marginalia-mode))
 
 ;; ============================================================================
+;; Project Management with Projectile
+;; ============================================================================
+
+(use-package projectile
+  :init
+  (setq projectile-project-search-path '("~/dev" "~/projects"))
+  (setq projectile-switch-project-action #'projectile-dired)
+  (setq projectile-enable-caching t)
+  (setq projectile-indexing-method 'alien)  ; Use external tools (faster)
+  :config
+  (projectile-mode +1))
+
+;; ============================================================================
+;; Consult - Powerful Search and Navigation (Telescope equivalent)
+;; ============================================================================
+
+(use-package consult
+  :init
+  ;; Use consult for xref locations
+  (setq xref-show-xrefs-function #'consult-xref)
+  (setq xref-show-definitions-function #'consult-xref)
+  :config
+  ;; Configure preview behavior
+  (setq consult-preview-key "M-.")
+  (setq consult-narrow-key "<")
+
+  ;; Configure ripgrep arguments for live grep
+  (setq consult-ripgrep-args
+        "rg --null --line-buffered --color=never --max-columns=1000 --path-separator / --smart-case --no-heading --with-filename --line-number --search-zip"))
+
+;; Consult integration with projectile
+(use-package consult-projectile
+  :after (consult projectile))
+
+;; Embark - Actions on completion candidates (like Telescope actions)
+(use-package embark
+  :bind
+  (("C-." . embark-act)
+   ("C-;" . embark-dwim))
+  :config
+  (setq prefix-help-command #'embark-prefix-help-command))
+
+;; Embark-consult integration
+(use-package embark-consult
+  :after (embark consult)
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+;; ============================================================================
+;; Dired - File Manager (Oil.nvim equivalent)
+;; ============================================================================
+
+(use-package dired
+  :ensure nil  ; Built-in
+  :commands (dired dired-jump)
+  :custom
+  (dired-listing-switches "-agho --group-directories-first")
+  (dired-dwim-target t)           ; Suggest other dired buffer for operations
+  (dired-recursive-copies 'always)
+  (dired-recursive-deletes 'always)
+  (dired-kill-when-opening-new-dired-buffer t)  ; Single dired buffer
+  :config
+  ;; Evil keybindings for dired
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "h" 'dired-up-directory
+    "l" 'dired-find-file
+    "o" 'dired-find-file-other-window
+    "gr" 'revert-buffer))
+
+;; Dired-x for extra functionality
+(use-package dired-x
+  :ensure nil  ; Built-in
+  :after dired
+  :config
+  (setq dired-omit-files "\\`[.]?#\\|\\`[.][.]?\\'\\|^\\.DS_Store$\\|^\\.git$"))
+
+;; Dired-sidebar - File tree like NvimTree/Oil
+(use-package dired-sidebar
+  :commands (dired-sidebar-toggle-sidebar)
+  :init
+  (setq dired-sidebar-subtree-line-prefix "  ")
+  (setq dired-sidebar-theme 'nerd)
+  (setq dired-sidebar-use-term-integration t)
+  (setq dired-sidebar-use-custom-font t)
+  :config
+  ;; Refresh sidebar when switching projects
+  (setq dired-sidebar-should-follow-file t))
+
+;; Nerd icons for dired
+(use-package nerd-icons-dired
+  :hook (dired-mode . nerd-icons-dired-mode))
+
+;; ============================================================================
+;; Git Integration - Magit (LazyGit equivalent, arguably better)
+;; ============================================================================
+
+(use-package magit
+  :commands (magit-status magit-blame magit-log-current magit-log-buffer-file)
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+  (magit-diff-refine-hunk t)     ; Show word-level diff highlighting
+  :config
+  ;; Full-screen magit status
+  (setq magit-bury-buffer-function #'magit-restore-window-configuration))
+
+;; Git gutter - Show git diff in fringe (like gitsigns.nvim)
+(use-package diff-hl
+  :hook ((prog-mode . diff-hl-mode)
+         (text-mode . diff-hl-mode)
+         (dired-mode . diff-hl-dired-mode)
+         (magit-pre-refresh . diff-hl-magit-pre-refresh)
+         (magit-post-refresh . diff-hl-magit-post-refresh))
+  :custom
+  (diff-hl-draw-borders nil)
+  (diff-hl-margin-symbols-alist
+   '((insert . "│")
+     (delete . "│")
+     (change . "│")
+     (unknown . "│")
+     (ignored . "│")))
+  :config
+  ;; Use margin mode for terminal compatibility
+  (unless (display-graphic-p)
+    (diff-hl-margin-mode)))
+
+;; Git time machine - Browse file history
+(use-package git-timemachine
+  :commands git-timemachine)
+
+;; ============================================================================
+;; LSP with Eglot (built-in, simpler than lsp-mode)
+;; ============================================================================
+
+(use-package eglot
+  :ensure nil  ; Built-in in Emacs 29+
+  :hook ((python-mode . eglot-ensure)
+         (python-ts-mode . eglot-ensure)
+         (typescript-mode . eglot-ensure)
+         (typescript-ts-mode . eglot-ensure)
+         (tsx-ts-mode . eglot-ensure)
+         (js-mode . eglot-ensure)
+         (js-ts-mode . eglot-ensure)
+         (go-mode . eglot-ensure)
+         (go-ts-mode . eglot-ensure)
+         (rust-mode . eglot-ensure)
+         (rust-ts-mode . eglot-ensure)
+         (c-mode . eglot-ensure)
+         (c++-mode . eglot-ensure)
+         (c-ts-mode . eglot-ensure)
+         (c++-ts-mode . eglot-ensure)
+         (lua-mode . eglot-ensure))
+  :custom
+  (eglot-autoshutdown t)          ; Shutdown server when last buffer closes
+  (eglot-events-buffer-size 0)    ; Disable events buffer for performance
+  (eglot-sync-connect nil)        ; Don't block on connect
+  (eglot-connect-timeout 10)
+  :config
+  ;; Performance optimizations
+  (setq eglot-ignored-server-capabilities '(:hoverProvider))  ; Disable hover for speed
+
+  ;; Add language servers if needed
+  ;; Most modern servers are auto-detected, but you can customize:
+  ;; (add-to-list 'eglot-server-programs '(typescript-mode . ("typescript-language-server" "--stdio")))
+  )
+
+;; Consult integration with eglot
+(use-package consult-eglot
+  :after (consult eglot)
+  :commands consult-eglot-symbols)
+
+;; ============================================================================
+;; Corfu - Inline Completion (blink.cmp equivalent)
+;; ============================================================================
+
+(use-package corfu
+  :custom
+  (corfu-cycle t)                  ; Enable cycling through candidates
+  (corfu-auto t)                   ; Enable auto-completion
+  (corfu-auto-prefix 2)            ; Start completion after 2 characters
+  (corfu-auto-delay 0.1)           ; Delay before showing completions
+  (corfu-quit-no-match 'separator) ; Don't quit if no match
+  (corfu-preview-current nil)      ; Don't preview current candidate
+  (corfu-preselect 'prompt)        ; Don't preselect first candidate
+  (corfu-on-exact-match nil)       ; Don't auto-insert on exact match
+  (corfu-popupinfo-delay '(0.5 . 0.2))  ; Show docs after delay
+  :init
+  (global-corfu-mode)
+  (corfu-popupinfo-mode)  ; Show documentation popup
+  :config
+  ;; TAB cycle through candidates
+  (define-key corfu-map (kbd "TAB") 'corfu-next)
+  (define-key corfu-map (kbd "<tab>") 'corfu-next)
+  (define-key corfu-map (kbd "S-TAB") 'corfu-previous)
+  (define-key corfu-map (kbd "<backtab>") 'corfu-previous)
+  ;; RET to confirm
+  (define-key corfu-map (kbd "RET") 'corfu-insert)
+  ;; Escape to quit
+  (define-key corfu-map (kbd "<escape>") 'corfu-quit))
+
+;; Nerd icons for corfu
+(use-package nerd-icons-corfu
+  :after corfu
+  :config
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
+;; ============================================================================
+;; Cape - Completion At Point Extensions
+;; ============================================================================
+
+(use-package cape
+  :init
+  ;; Add useful completion sources
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+  :config
+  ;; Configure cape-dabbrev
+  (setq cape-dabbrev-min-length 3)
+  (setq cape-dabbrev-check-other-buffers t))
+
+;; ============================================================================
+;; Flymake - Diagnostics (works with eglot)
+;; ============================================================================
+
+(use-package flymake
+  :ensure nil  ; Built-in
+  :hook (prog-mode . flymake-mode)
+  :custom
+  (flymake-no-changes-timeout 0.5)  ; Run checks after 0.5s of no changes
+  (flymake-start-on-save-buffer t)
+  :config
+  ;; Show diagnostics in minibuffer
+  (setq flymake-show-diagnostics-at-end-of-line t)  ; Emacs 30+, ignored otherwise
+
+  ;; Custom fringe indicators
+  (define-fringe-bitmap 'flymake-big-indicator
+    (vector #b00000000
+            #b00000000
+            #b00000000
+            #b00111100
+            #b01111110
+            #b01111110
+            #b01111110
+            #b00111100
+            #b00000000
+            #b00000000
+            #b00000000)))
+
+;; Consult integration for flymake
+(use-package consult-flymake
+  :after (consult flymake)
+  :ensure nil  ; Part of consult
+  :commands consult-flymake)
+
+;; ============================================================================
 ;; Helpful - Better Help Buffers
 ;; ============================================================================
 
@@ -389,6 +717,61 @@
   ([remap describe-variable] . helpful-variable)
   ([remap describe-key] . helpful-key)
   ([remap describe-command] . helpful-command))
+
+;; ============================================================================
+;; Tree-sitter Support (Emacs 29+)
+;; ============================================================================
+
+;; Tree-sitter provides better syntax highlighting and code understanding
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)  ; Prompt before installing grammars
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
+
+;; ============================================================================
+;; Language Modes
+;; ============================================================================
+
+;; TypeScript/JavaScript
+(use-package typescript-mode
+  :mode "\\.ts\\'"
+  :hook (typescript-mode . eglot-ensure)
+  :custom
+  (typescript-indent-level 2))
+
+;; YAML
+(use-package yaml-mode
+  :mode "\\.ya?ml\\'")
+
+;; JSON
+(use-package json-mode
+  :mode "\\.json\\'")
+
+;; Markdown
+(use-package markdown-mode
+  :mode "\\.md\\'"
+  :custom
+  (markdown-fontify-code-blocks-natively t))
+
+;; Lua
+(use-package lua-mode
+  :mode "\\.lua\\'"
+  :custom
+  (lua-indent-level 2))
+
+;; Go
+(use-package go-mode
+  :mode "\\.go\\'"
+  :hook (go-mode . eglot-ensure))
+
+;; Rust
+(use-package rust-mode
+  :mode "\\.rs\\'"
+  :hook (rust-mode . eglot-ensure)
+  :custom
+  (rust-format-on-save t))
 
 ;; ============================================================================
 ;; Custom File Location
